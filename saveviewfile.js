@@ -772,12 +772,6 @@ function recordWPPostInfo(postid, answers, type, mediaurl, excerpt, callback) {
         var a = answers[i];
         sqls.push("INSERT INTO wpdetail (pid, uid, answerlink)" +
             " VALUES ((select max(tid) from wpposts)," + a.tid + ",'" + a.link + "')");
-        //2014.9.18追加：插入数据到详细描述表
-        var questionid = a.link.substr(10, 8);
-        var answerid = a.link.substr(-8);
-        sqls.push("INSERT INTO apidetail(pid, title, date, summary, questionid, answerid, authorname, authorid, authorhash, avatar, vote) " +
-            " VALUES ((select max(tid) from wpposts), " + db.escape(a.title) + ", '" + tools.getDateTimeString(a.date) + "', " + db.escape(a.summary) + "," +
-            " '" + questionid + "', '" + answerid + "', " + db.escape(a.uname) + ", '" + a.uid + "', '" + a.hash + "', '" + a.avatar + "', '" + a.agree + "')");
     }
     db.mutliquery(sqls, function (err) {
         if (err) {
