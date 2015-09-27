@@ -7,10 +7,11 @@
 1. 搞一台服务器，什么linux都行，我用的是CentOS 6.5；
 2. 装个mysql数据库，5.5或5.6均可，图省事可以直接用lnmp或lamp来装，回头还能直接在浏览器看日志；
 3. 先安个node.js环境，我用的是0.12.7，更靠后的版本没试过；
-4. 安装forever：npm -g install forever，好让爬虫在后台跑；
+4. 执行npm -g install forever，安装forever好让爬虫在后台跑；
 5. 把所有代码整到本地（整=git clone）；
-6. 在项目目录下npm install安装依赖库；
 7. 在项目目录下创建json和avatar两个空文件夹。也可以放到别处，只要在下面配置文件里写好就行；
+6. 在项目目录下执行npm install安装依赖库；
+7. 在项目目录下创建json和avatar两个空文件夹；
 8. 建立一个空mysql数据库和一个有完整权限的用户，先后执行代码里的setup.sql和startusers.sql，创建数据库结构并导入初始种子用户；
 9. 编辑config.js，标明（必须）的配置项必须填写或修改，其余项可以暂时不改：
 
@@ -36,7 +37,7 @@
 >     exports.mailservice = "QQ";//邮件通知服务类型，也可以用Gmail，前提是你访问得了Gmail（必须）
     exports.mailuser = "12345@qq.com";//邮箱用户名（必须）
     exports.mailpass = "qqpassword";//邮箱密码（必须）
-    exports.mailfrom = "12345@qq.com";//发送邮件地址（必须）
+    exports.mailfrom = "12345@qq.com";//发送邮件地址（必须，一般与用户名所属邮箱一致）
     exports.mailto = "12345@qq.com";//接收通知邮件地址（必须）
 
 保存，然后进入下一步。
