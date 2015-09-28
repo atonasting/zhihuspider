@@ -66,8 +66,10 @@
 
 ## 运行
 推荐用forever来执行，这样不仅方便后台运行和记录日志，还能在崩溃后自动重启。
-示例：forever -l /var/www/log.txt index.js
-其中-l后的地址就是记录日志的地方，如果放在web服务器目录下，就能在浏览器里通过http://www.xxx.com/log.txt来直接查看日志了。
+示例：
+> forever -l /var/www/log.txt index.js
+
+其中-l后的地址就是记录日志的地方，如果放在web服务器目录下，就能在浏览器里通过http://www.xxx.com/log.txt 来直接查看日志了。
 
 在index.js后面加参数（用空格分隔）可以执行不同的爬虫指令：
 
@@ -80,9 +82,10 @@
 各阶段的功能在下一节介绍。
 
 为了方便运行，可以将这行命令写成sh脚本，例如：
->  #!/bin/bash
-rm -f /var/www/log.txt
-forever -l /var/www/log.txt start /usr/zhihuspider/index.js $*
+>  #!/bin/bash  
+cd /usr/zhihuspider  
+rm -f /var/www/log.txt  
+forever -l /var/www/log.txt start index.js $*
 
 具体路径请替换成自己的。  
 
