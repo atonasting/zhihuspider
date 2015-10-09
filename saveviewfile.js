@@ -370,8 +370,8 @@ function publishWPYesterday(callback) {
                 if (!a.ispost) alink = config.urlpre.replace(/\/$/, '') + a.link;
                 else alink = config.urlzhuanlanpre.replace(/\/$/, '') + a.link;
 
-                if (a.avatar.indexOf("https://") == 0)  a.avatar = a.avatar.replace("https://", "http://zhihudata.kanzhihu.com/avatar/");
-                else a.avatar = a.avatar.replace("http://", "http://zhihudata.kanzhihu.com/avatar/");
+                if (a.avatar.indexOf("https://") == 0)  a.avatar = a.avatar.replace("https://", config.WPurlavatarpre);
+                else a.avatar = a.avatar.replace("http://", config.WPurlavatarpre);
 
                 content += '<a href="' + config.urlpre + 'people/' + a.uid + '/" target="_blank">' +
                     '<img class="alignleft avatar" src="' + a.avatar + '" alt="" /></a>' +
@@ -519,8 +519,8 @@ function publishWPRecent(callback) {
                 if (!a.ispost) alink = config.urlpre.replace(/\/$/, '') + a.link;
                 else alink = config.urlzhuanlanpre.replace(/\/$/, '') + a.link;
 
-                if (a.avatar.indexOf("https://") == 0)  a.avatar = a.avatar.replace("https://", "http://zhihudata.kanzhihu.com/avatar/");
-                else a.avatar = a.avatar.replace("http://", "http://zhihudata.kanzhihu.com/avatar/");
+                if (a.avatar.indexOf("https://") == 0)  a.avatar = a.avatar.replace("https://", config.WPurlavatarpre);
+                else a.avatar = a.avatar.replace("http://", config.WPurlavatarpre);
 
                 content += '<a href="' + config.urlpre + 'people/' + a.uid + '/" target="_blank">' +
                     '<img class="alignleft avatar" src="' + a.avatar + '" alt="" /></a>' +
@@ -709,8 +709,8 @@ function publishWPArchive(callback) {
                     if (!a.ispost) alink = config.urlpre.replace(/\/$/, '') + a.link;
                     else alink = config.urlzhuanlanpre.replace(/\/$/, '') + a.link;
 
-                    if (a.avatar.indexOf("https://") == 0)  a.avatar = a.avatar.replace("https://", "http://zhihudata.kanzhihu.com/avatar/");
-                    else a.avatar = a.avatar.replace("http://", "http://zhihudata.kanzhihu.com/avatar/");
+                    if (a.avatar.indexOf("https://") == 0)  a.avatar = a.avatar.replace("https://", config.WPurlavatarpre);
+                    else a.avatar = a.avatar.replace("http://", config.WPurlavatarpre);
 
                     content += '<a href="' + config.urlpre + 'people/' + a.uid + '/" target="_blank">' +
                         '<img class="alignleft avatar" src="' + a.avatar + '" alt="" /></a>' +

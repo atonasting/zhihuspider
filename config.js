@@ -21,6 +21,7 @@ exports.urlzhuanlanpre = "http://zhuanlan.zhihu.com/";//知乎专栏网址
 exports.WPurl = "www.xxx.com";//要发布文章的wordpress网站地址
 exports.WPusername = "publishuser";//发布文章的用户名
 exports.WPpassword = "publishpassword";//发布文章用户的密码
+exports.WPurlavatarpre = "http://www.xxx.com/avatar/";//发布文章中替代原始头像的url地址
 
 exports.mailservice = "QQ";//邮件通知服务类型，也可以用Gmail，前提是你访问得了Gmail
 exports.mailuser = "12345@qq.com";//邮箱用户名
