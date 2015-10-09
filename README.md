@@ -32,6 +32,7 @@
 >     exports.WPurl = "www.xxx.com";//要发布文章的wordpress网站地址
     exports.WPusername = "publishuser";//发布文章的用户名
     exports.WPpassword = "publishpassword";//发布文章用户的密码
+    exports.WPurlavatarpre = "http://www.xxx.com/avatar/";//发布文章中替代原始头像的url地址
 
 >     exports.mailservice = "QQ";//邮件通知服务类型，也可以用Gmail，前提是你访问得了Gmail（必须）
     exports.mailuser = "12345@qq.com";//邮箱用户名（必须）
@@ -116,6 +117,7 @@ forever -l /var/www/log.txt start index.js $*
 - 不要轻易增加快照抓取时的（伪）线程数，即usersnapshots中的maxthreadcount属性。线程太多会导致429错误，同时抓取回来的大量数据可能会来不及写入数据库造成内存溢出。所以，除非你的数据库搭在SSD上，线程不要超过10个。
 - saveviewfile生成分析结果的工作需要至少近7天的快照才能进行，如果快照内容少于7天会报错并跳过。此前的分析工作可以手动查询数据库进行。
 - 考虑到大多数人并不需要复制一个「看知乎」，已经将自动发布wordpress文章函数入口注释掉了。如果你搭建好了wordpress，记得开启xmlrpc，然后设置一个专门用于发布文章的用户，在config.js中配置相应兵并将saveviewfile中的相关代码解除注释。
+- 由于知乎对头像做了防盗链处理，我们在抓取用户信息时一并也将头像获取了下来，保存在本地，发布文章时使用的是本地头像地址。需要在http服务器中将url路径指向保存头像的文件夹，或者将保存头像的文件夹直接放到网站目录下。
 - 代码可能不太容易读懂。除了node.js的回调结构本身就较混乱之外，还有一部分原因是最初写程序时我刚刚开始接触node.js，有很多不熟悉的地方导致结构混乱没有来得及改正；另一部分是在多次缝缝补补中累加了许多丑陋的判断条件和重试规则，如果全部去掉，代码量可能会下降三分之二。但这是没有办法的事，为了保障一个系统的稳定运行，必须加入这些。
 - 本爬虫源码基于WTFPL协议，不对修改和发布做任何限制。
 - 苏莉安很懒，不会及时解答问题和更新版本，作为开发者应该尽量自己解决。
