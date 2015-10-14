@@ -185,6 +185,15 @@ function getSingleUserInfo(threadnum, callback, cursor, retry) {
         r.ratio = (r.agree / (r.answer + r.post)).toFixed(2);
         r.logs = Number(nav.eq(5).find(".num").html());
 
+        //判断账号停用
+        var accountstatus = $(".zh-profile-account-status");
+        if (accountstatus.length == 1 && accountstatus.text().indexOf("停用") >= 0) {
+            logger.debug(user.tid + " User " + user.id + "'s account is stopped.");
+            r.stopped = 1;
+        }
+        else
+            r.stopped = 0;
+
         if (r.agree > 0 && r.follower == 0 && !fixed) {//如果发现用户有赞同但关注数为0，可能是网络错误导致的，需要再读一次（如果修复后还为0就不处理了）
             getUserError(threadnum, user.tid + " Cannot read user " + user.id + " 's follower.", user, callback);
             return;
@@ -548,8 +557,8 @@ function saveResults(callback) {
             sqls.push("update users set avatar='" + r.avatar + "' where tid=" + r.uid);
         }
 
-        //为节约判断资源，用户签名和描述一律更新
-        sqls.push("update users set signature=" + db.escape(r.signature) + ", description= " + db.escape(r.description) + " where tid=" + r.uid);
+        //为节约判断资源，用户签名/描述/是否屏蔽等字段一律更新
+        sqls.push("update users set signature=" + db.escape(r.signature) + ", description= " + db.escape(r.description) + ", stopped=" + r.stopped + " where tid=" + r.uid);
 
         //为了避免快照插入后未插入答案即中断，快照本体要放到最后面插入
         sqls.push(snapshotsql);
