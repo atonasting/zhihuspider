@@ -200,7 +200,7 @@ function saveViewFile(callback) {
             "s.agree-ws.agree agreeiw,  CONCAT( ROUND( (s.agree-ws.agree) / ws.agree * 100, 2 ), '%') agreeiratiow, " +
             "s.follower-ys.follower followeri, CONCAT( ROUND( (s.follower-ys.follower) / ys.follower * 100, 2 ), '%') followiratio, " +
             "s.follower-ws.follower followeriw, CONCAT( ROUND( (s.follower-ws.follower) / ws.follower * 100, 2 ), '%') followiratiow, " +
-            "s.thanks, ROUND( s.thanks / s.agree , 4 ) tratio, s.fav, ROUND( s.fav / s.agree , 4 ) fratio, s.logs, " +
+            "s.thanks, ROUND( s.thanks / s.agree , 4 ) tratio, s.fav, ROUND( s.fav / s.agree , 4 ) fratio, s.logs, u.stopped, " +
             "s.mostvote, CONCAT( ROUND( s.mostvote / s.agree * 100, 2 ) ,  '%' ) mostvotepercent, " +
             "s.mostvote5, CONCAT( ROUND( s.mostvote5 / s.agree *100, 2 ) ,  '%' ) mostvote5percent, " +
             "s.mostvote10, CONCAT( ROUND( s.mostvote10 / s.agree *100, 2 ) ,  '%' ) mostvote10percent, " +
@@ -280,6 +280,7 @@ function publishWPYesterday(callback) {
         " where a.date<'" + tools.getDateString(stime) + "' and a.date>='" + tools.getDateString(ystime) + "' and ispost=0 and collapsed=0 and noshare=0" +
         " and link not in (select answerlink from wpdetail)" +
         " and len + imgcount > 0" +
+        " and u.stopped <> 1" +
         " and s.sid=(select max(tid) from snapshots where endtime>0)";
     if (hiddenuserids.length > 0) {//隐藏指定id
         sql += " and u.tid not in (" + hiddenuserids.join(",") + ")";
@@ -428,6 +429,7 @@ function publishWPRecent(callback) {
         " where a.date<'" + tools.getDateString(stime) + "' and a.date>='" + tools.getDateString(wstime) + "' and ispost=0 and collapsed=0 and noshare=0" +
         " and a.link not in (select answerlink from wpdetail)" +
         " and len + imgcount > 0" +
+        " and u.stopped <> 1" +
         " and s.sid=(select max(tid) from snapshots where endtime>0)";
     if (hiddenuserids.length > 0) {//隐藏指定id
         sql += " and u.tid not in (" + hiddenuserids.join(",") + ")";
@@ -580,6 +582,7 @@ function publishWPArchive(callback) {
         " where a.date<'" + tools.getDateString(wstime) + "' and a.date>='" + tools.getDateString(archivetime) + "' and ispost=0 and collapsed=0 and noshare=0" +
         " and a.link not in (select answerlink from wpdetail)" +
         " and len + imgcount > 0" +
+        " and u.stopped <> 1" +
         " and s.sid=(select max(tid) from snapshots where endtime>0)";
     if (hiddenuserids.length > 0) {//隐藏指定id
         sql1 += " and u.tid not in (" + hiddenuserids.join(",") + ")"
@@ -593,6 +596,7 @@ function publishWPArchive(callback) {
         " where a.date<'" + tools.getDateString(archivetime) + "' and ispost=0 and collapsed=0 and noshare=0" +
         " and a.link not in (select answerlink from wpdetail)" +
         " and len + imgcount > 0" +
+        " and u.stopped <> 1" +
         " and s.sid=(select max(tid) from snapshots where endtime>0)";
     if (hiddenuserids.length > 0) {//隐藏指定id
         sql2 += " and u.tid not in (" + hiddenuserids.join(",") + ")";
