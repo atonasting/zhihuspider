@@ -187,7 +187,7 @@ function getSingleUserInfo(threadnum, callback, cursor, retry) {
 
         //判断账号停用
         var accountstatus = $(".zh-profile-account-status");
-        if (accountstatus.length == 1 && accountstatus.text().indexOf("停用") >= 0) {
+        if (accountstatus.length == 1 && accountstatus.text().indexOf("知乎社区规范") >= 0) {
             logger.debug(user.tid + " User " + user.id + "'s account is stopped.");
             r.stopped = 1;
         }
