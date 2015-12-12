@@ -47,6 +47,12 @@ CREATE TABLE IF NOT EXISTS `users` (
   `avatar` varchar(100) DEFAULT NULL,
   `signature` varchar(500) DEFAULT NULL,
   `description` varchar(2000) DEFAULT NULL,
+  `location` varchar(100) DEFAULT NULL,
+  `business` varchar(100) DEFAULT NULL,
+  `employment` varchar(100) DEFAULT NULL,
+  `position` varchar(100) DEFAULT NULL,
+  `education` varchar(100) DEFAULT NULL,
+  `educationextra` varchar(100) DEFAULT NULL,
   `cheat` tinyint(1) DEFAULT NULL,
   `stopped` tinyint(1) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
