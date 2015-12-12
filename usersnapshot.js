@@ -168,6 +168,16 @@ function getSingleUserInfo(threadnum, callback, cursor, retry) {
         r.name = header.find(".title-section .name").text();
         r.signature = header.find(".title-section .bio").text();
         r.description = header.find(".description .content").text().trim().substr(0, 1500);
+
+        //地理、职业、学校等信息
+        var itemsdiv = header.find(".items");
+        r.location = itemsdiv.find(".location").text();//位置
+        r.business = itemsdiv.find(".business").text();//行业
+        r.employment = itemsdiv.find(".employment").text();//公司
+        r.position = itemsdiv.find(".position").text();//职位
+        r.education = itemsdiv.find(".education").text();//学校
+        r.educationextra = itemsdiv.find(".education-extra").text();//专业
+        
         r.sex = 0;//性别
         if (header.find(".icon-profile-male").length == 1)
             r.sex = 1;
@@ -558,7 +568,13 @@ function saveResults(callback) {
         }
 
         //为节约判断资源，用户签名/描述/是否屏蔽等字段一律更新
-        sqls.push("update users set signature=" + db.escape(r.signature) + ", description= " + db.escape(r.description) + ", stopped=" + r.stopped + " where tid=" + r.uid);
+        sqls.push("update users set signature=" + db.escape(r.signature) + ", description= " + db.escape(r.description) + ", stopped=" + r.stopped +
+            " where tid=" + r.uid);
+
+        //单独一句更新用户附加信息
+        sqls.push("update users set location=" + db.escape(r.location) + ", business= " + db.escape(r.business) + ", employment= " + db.escape(r.employment) +
+            ", position= " + db.escape(r.position) +", education= " + db.escape(r.education) +", educationextra= " + db.escape(r.educationextra) +
+            " where tid=" + r.uid);
 
         //为了避免快照插入后未插入答案即中断，快照本体要放到最后面插入
         sqls.push(snapshotsql);
