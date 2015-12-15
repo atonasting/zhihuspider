@@ -223,7 +223,7 @@ function getSingleUserInfo(threadnum, callback, cursor, retry) {
         r.avatar = header.find("img.avatar").attr("src");
 
         //2015.8.31 头像URL修改格式
-        if (r.avatar && r.avatar.indexOf("//") == 0) r.avatar = "http://" + r.avatar.substr(2);
+        if (r.avatar && r.avatar.indexOf("//") == 0) r.avatar = "https://" + r.avatar.substr(2);
 
         if (r.avatar && tools.getUrlFileName(r.avatar) != tools.getUrlFileName(user.avatar)) //判断是否更换过头像（只比较文件名部分）
             r.oldavatar = user.avatar;
@@ -405,7 +405,7 @@ function getPosts(r, callback) {
     else {
         logger.debug("Getting user " + r.id + "'s posts.");
         //抓取用户专栏文章页
-        var url = "http://www.zhihu.com/people/" + encodeURIComponent(r.id) + "/posts";
+        var url = config.urlpre + "people/" + encodeURIComponent(r.id) + "/posts";
         tools.get(url, cookie, function (err, data) {
             if (err) {//失败则重读
                 setTimeout(function () {

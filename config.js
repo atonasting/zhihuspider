@@ -15,7 +15,7 @@ exports.dbconfig = {
     acquireTimeout: 30000
 };
 
-exports.urlpre = "http://www.zhihu.com/";//知乎网址
+exports.urlpre = "https://www.zhihu.com/";//知乎网址
 exports.urlzhuanlanpre = "http://zhuanlan.zhihu.com/";//知乎专栏网址
 
 exports.WPurl = "www.xxx.com";//要发布文章的wordpress网站地址
