@@ -629,7 +629,7 @@ function saveResults(callback) {
             logger.log("success read " + successUserCount + " users first time, " + failUserCount + " failed, " + fixedUserCount + " of them fixed.");
             logger.log(idchangedUserCount + " users changed id, " + namechangedUserCount + " users changed name, " + avatarchangedUserCount + " users uploaded new avatar.");
             endtime = tools.getDateTimeString();
-            var snapsql = "UPDATE snapshots SET endtime='" + endtime + "', successcount='" + (successUserCount + fixedUserCount) + "'," +
+            var snapsql = "UPDATE snapshots SET endtime='" + endtime + "', successcount=(select count(*) from usersnapshots where sid='" + sid + "')," +
                 " failcount='" + (failUserCount - fixedUserCount) + "', idchangedcount='" + idchangedUserCount + "'," +
                 " namechangedcount='" + namechangedUserCount + "', avatarchangedcount='" + avatarchangedUserCount + "'" +
                 " WHERE tid='" + sid + "'";
