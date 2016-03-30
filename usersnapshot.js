@@ -439,7 +439,7 @@ function getTopPosts(r, page, plist, callback, retry) {
                 p.timestamp = Number(pitem.attr("data-time"));
                 p.aid = pitem.find("meta[itemprop='post-url-token']").attr("content");//文章id，就是url后面的id
                 p.date = tools.getDateTimeString(new Date(p.timestamp * 1000));//发布时间
-                p.link = pitem.find(".post-link").attr("href");
+                p.link = pitem.find(".post-link").attr("href").replace(config.urlzhuanlanpre, "");
                 p.name = pitem.find(".post-link").html();
                 p.ispost = true;
                 p.collapsed = false;//是否折叠
@@ -451,12 +451,12 @@ function getTopPosts(r, page, plist, callback, retry) {
                     return;
                 }
 
-                //获取答案摘要
+                //获取文章摘要
                 var summarydiv = pitem.find(".summary");
-                summarydiv.find("a.toggle-expand").remove();//移除展开答案的链接
+                summarydiv.find("a.toggle-expand").remove();//移除展开文章的链接
                 p.summary = summarydiv.text().trim().replace(/\n/g, "").substr(0, 1000)
 
-                //计算答案字数和图片数
+                //计算文章字数和图片数
                 var contentdiv = pitem.find("textarea");
                 var content = contentdiv.text().trim().replace(/&lt;/g, '<').replace(/&gt;/g, '>');
                 p.content = content;
@@ -483,7 +483,7 @@ function getTopPosts(r, page, plist, callback, retry) {
 
         plist = plist.concat(pageplist);
 
-        //如果本页最后一篇文章仍然高于指定票数，且未读完所有答案，则继续读取下一页
+        //如果本页最后一篇文章仍然高于指定票数，且未读完所有文章，则继续读取下一页
         if (postlist.length > 0 && plist.length > 0 && plist.length < r.post && plist[plist.length - 1].agree >= agreelimit) {
             setTimeout(function () {
                 getTopPosts(r, page + 1, plist, callback);
