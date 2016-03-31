@@ -439,7 +439,7 @@ function getTopPosts(r, page, plist, callback, retry) {
                 p.timestamp = Number(pitem.attr("data-time"));
                 p.aid = pitem.find("meta[itemprop='post-url-token']").attr("content");//文章id，就是url后面的id
                 p.date = tools.getDateTimeString(new Date(p.timestamp * 1000));//发布时间
-                p.link = pitem.find(".post-link").attr("href").replace(config.urlzhuanlanpre, "/");
+                p.link = pitem.find(".post-link").attr("href");
                 p.name = pitem.find(".post-link").html();
                 p.ispost = true;
                 p.collapsed = false;//是否折叠
@@ -450,6 +450,8 @@ function getTopPosts(r, page, plist, callback, retry) {
                     getpostfailed = true;
                     return;
                 }
+
+                p.link = p.link.replace(config.urlzhuanlanpre, "");//去掉专栏链接前缀
 
                 //获取文章摘要
                 var summarydiv = pitem.find(".summary");
