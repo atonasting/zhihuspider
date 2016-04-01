@@ -451,7 +451,7 @@ function getTopPosts(r, page, plist, callback, retry) {
                     return;
                 }
 
-                p.link = p.link.replace(config.urlzhuanlanpre, "");//去掉专栏链接前缀
+                p.link = p.link.replace(config.urlzhuanlanpre, "/");//去掉专栏链接前缀
 
                 //获取文章摘要
                 var summarydiv = pitem.find(".summary");
