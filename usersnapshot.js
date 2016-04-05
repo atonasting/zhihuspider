@@ -177,7 +177,7 @@ function getSingleUserInfo(threadnum, callback, cursor, retry) {
         r.position = itemsdiv.find(".position").text();//职位
         r.education = itemsdiv.find(".education").text();//学校
         r.educationextra = itemsdiv.find(".education-extra").text();//专业
-        
+
         r.sex = 0;//性别
         if (header.find(".icon-profile-male").length == 1)
             r.sex = 1;
@@ -311,9 +311,13 @@ function getTopAnswers(r, page, alist, callback, retry) {
         if (err) {
             //如果失败则重试，超出重试次数则返回
             retry++;
-            logger.error("Get user " + r.id + "'s top answer page " + page + " error:" + err);
+            if (err == '429')//429错误只记录调试信息
+                logger.debug("Get user " + r.id + "'s top answer page " + page + " error:" + err);
+            else
+                logger.error("Get user " + r.id + "'s top answer page " + page + " error:" + err);
+
             if (retry >= maxretry)
-                callback("reached max retry count", alist);
+                callback("error reached max retry count : " + err, alist);
             else
                 setTimeout(function () {
                     getTopAnswers(r, page, alist, callback, retry);
@@ -369,7 +373,7 @@ function getTopAnswers(r, page, alist, callback, retry) {
             retry++;
             logger.error("Get user " + r.id + "'s top answer page " + page + " error on answer title.");
             if (retry >= maxretry)
-                callback("reached max retry count", alist);
+                callback("reached max retry count : answer title", alist);
             else
                 setTimeout(function () {
                     getTopAnswers(r, page, alist, callback, retry);
@@ -388,7 +392,7 @@ function getTopAnswers(r, page, alist, callback, retry) {
         }
 
         //答案读取完成，读取文章并将两者合并返回
-        if (r.post>0) {
+        if (r.post > 0) {
             setTimeout(function () {
                 getTopPosts(r, 1, new Array(), function (err, plist) {
                     if (err)
@@ -417,9 +421,13 @@ function getTopPosts(r, page, plist, callback, retry) {
         if (err) {
             //如果失败则重试，超出重试次数则返回
             retry++;
-            logger.error("Get user " + r.id + "'s top post page " + page + " error:" + err);
+            if (err == '429')//429错误只记录调试信息
+                logger.debug("Get user " + r.id + "'s top post page " + page + " error:" + err);
+            else
+                logger.error("Get user " + r.id + "'s top post page " + page + " error:" + err);
+
             if (retry >= maxretry)
-                callback("reached max retry count", plist);
+                callback("error reached max retry count : " + err, plist);
             else
                 setTimeout(function () {
                     getTopPosts(r, page, plist, callback, retry);
@@ -473,9 +481,9 @@ function getTopPosts(r, page, plist, callback, retry) {
         //如果前一步中出现任何错误则重读当前页，超出重试次数则返回
         if (getpostfailed) {
             retry++;
-            logger.error("Get user " + r.id + "'s top post page " + page + " error on answer title.");
+            logger.error("Get user " + r.id + "'s top post page " + page + " error on post title.");
             if (retry >= maxretry)
-                callback("reached max retry count", plist);
+                callback("reached max retry count : post title", plist);
             else
                 setTimeout(function () {
                     getTopPosts(r, page, plist, callback, retry);
@@ -673,7 +681,7 @@ function saveResults(callback) {
 
         //单独一句更新用户附加信息
         sqls.push("update users set location=" + db.escape(r.location) + ", business= " + db.escape(r.business) + ", employment= " + db.escape(r.employment) +
-            ", position= " + db.escape(r.position) +", education= " + db.escape(r.education) +", educationextra= " + db.escape(r.educationextra) +
+            ", position= " + db.escape(r.position) + ", education= " + db.escape(r.education) + ", educationextra= " + db.escape(r.educationextra) +
             " where tid=" + r.uid);
 
         //为了避免快照插入后未插入答案即中断，快照本体要放到最后面插入
