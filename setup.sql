@@ -54,7 +54,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `education` varchar(100) DEFAULT NULL,
   `educationextra` varchar(100) DEFAULT NULL,
   `cheat` tinyint(1) DEFAULT NULL,
-  `stopped` tinyint(1) DEFAULT NULL
+  `stopped` tinyint(1) DEFAULT NULL,
+  `hidden` tinyint(1) DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

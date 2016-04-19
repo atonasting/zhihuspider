@@ -14,7 +14,6 @@ var sid, ysid, wsid;//最新、昨天、上周对应的快照id
 var stime, ystime, wstime;//最新、昨天、上周快照的结束时间
 
 var deathuserids = config_user.deathuserids;//去世知友id
-var hiddenuserids = config_user.hiddenuserids;//不显示的id
 
 //入表用户筛选条件
 var filteroptions = {
@@ -206,10 +205,7 @@ function saveViewFile(callback) {
             "s.mostvote10, CONCAT( ROUND( s.mostvote10 / s.agree *100, 2 ) ,  '%' ) mostvote10percent, " +
             "s.count10000, s.count5000, s.count2000, s.count1000, s.count500, s.count200, s.count100 " +
             "FROM users u INNER JOIN usersnapshots s ON s.uid = u.tid INNER JOIN usersnapshots ys ON ys.uid = u.tid INNER JOIN usersnapshots ws ON ws.uid = u.tid " +
-            "WHERE s.sid='" + sid + "' and ys.sid='" + ysid + "' and ws.sid='" + wsid + "'";
-        if (hiddenuserids.length > 0) {//隐藏指定id
-            sql += " and u.tid not in (" + hiddenuserids.join(",") + ")";
-        }
+            "WHERE s.sid='" + sid + "' and ys.sid='" + ysid + "' and ws.sid='" + wsid + "' and u.hidden = 0";
         if (resulttypes[i] == "mostvotepercent")
             sql += filtersql + " and s.answer + s.post >= 1 and s.mostvote > 0 and s.agree > 0 ORDER BY s.agree / s.mostvote";//三个高票占比列要从低到高排列
         else if (resulttypes[i] == "mostvote5percent")
@@ -281,11 +277,9 @@ function publishWPYesterday(callback) {
         " and link not in (select answerlink from wpdetail)" +
         " and len + imgcount > 0" +
         " and u.stopped <> 1" +
-        " and s.sid=(select max(tid) from snapshots where endtime>0)";
-    if (hiddenuserids.length > 0) {//隐藏指定id
-        sql += " and u.tid not in (" + hiddenuserids.join(",") + ")";
-    }
-    sql += " order by a.agree desc";//取当日所有答案，最后只保留32个用户的答案
+        " and s.sid=(select max(tid) from snapshots where endtime>0)" +
+        " and u.hidden = 0" +
+        " order by a.agree desc";//取当日所有答案，最后只保留32个用户的答案
     db.query(sql, function (err, rows) {
         if (err) {
             callback("get answers error: " + err);
@@ -430,11 +424,9 @@ function publishWPRecent(callback) {
         " and a.link not in (select answerlink from wpdetail)" +
         " and len + imgcount > 0" +
         " and u.stopped <> 1" +
-        " and s.sid=(select max(tid) from snapshots where endtime>0)";
-    if (hiddenuserids.length > 0) {//隐藏指定id
-        sql += " and u.tid not in (" + hiddenuserids.join(",") + ")";
-    }
-    sql += " order by a.agree desc"//取当日所有答案，最后只保留32个用户的答案
+        " and s.sid=(select max(tid) from snapshots where endtime>0)" +
+        " and u.hidden = 0" +
+        " order by a.agree desc"//取近日所有答案，最后只保留32个用户的答案
     db.query(sql, function (err, rows) {
         if (err) {
             callback("get answers error: " + err);
@@ -583,11 +575,9 @@ function publishWPArchive(callback) {
         " and a.link not in (select answerlink from wpdetail)" +
         " and len + imgcount > 0" +
         " and u.stopped <> 1" +
-        " and s.sid=(select max(tid) from snapshots where endtime>0)";
-    if (hiddenuserids.length > 0) {//隐藏指定id
-        sql1 += " and u.tid not in (" + hiddenuserids.join(",") + ")"
-    }
-    sql1 += " order by a.agree desc limit 0,400";//取400个赞同最高且未发表过的答案用于筛选
+        " and s.sid=(select max(tid) from snapshots where endtime>0)" +
+        " and u.hidden = 0" +
+        " order by a.agree desc limit 0,400";//取400个赞同最高且未发表过的答案用于筛选
 
     //180天前的热门答案
     var sql2 = "SELECT u.tid, u.id uid, u.name uname, u.hash, u.avatar, s.agree uagree, s.follower ufollower, a.title, a.link, a.date, a.agree, a.ispost, a.len, a.imgcount, a.summary" +
@@ -597,11 +587,9 @@ function publishWPArchive(callback) {
         " and a.link not in (select answerlink from wpdetail)" +
         " and len + imgcount > 0" +
         " and u.stopped <> 1" +
-        " and s.sid=(select max(tid) from snapshots where endtime>0)";
-    if (hiddenuserids.length > 0) {//隐藏指定id
-        sql2 += " and u.tid not in (" + hiddenuserids.join(",") + ")";
-    }
-    sql2 += " order by a.agree desc limit 0,4000";//取4000个赞同最高且未发表过的答案用于筛选
+        " and s.sid=(select max(tid) from snapshots where endtime>0)" +
+        " and u.hidden = 0" +
+        " order by a.agree desc limit 0,4000";//取4000个赞同最高且未发表过的答案用于筛选
 
     var sqls = new Array();
     sqls.push(sql1);
