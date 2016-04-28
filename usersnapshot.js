@@ -332,7 +332,7 @@ function getTopAnswers(r, page, alist, callback, retry) {
         answerlist.each(function () {
             var a = Object();
             var aitem = $(this);//单个答案的html
-            a.agree = Number(aitem.find(".zm-item-vote-count").attr("data-votecount"));
+            a.agree = Number(aitem.find(".zm-item-vote-info").attr("data-votecount"));
             if (!isNaN(a.agree)) {
                 a.timestamp = Number(aitem.find(".zm-item-answer").attr("data-created"));
                 a.aid = aitem.find(".zm-item-answer").attr("data-aid");//用于获取赞同列表的回答id
@@ -442,7 +442,7 @@ function getTopPosts(r, page, plist, callback, retry) {
         postlist.each(function () {
             var p = Object();
             var pitem = $(this);//单个文章的html
-            p.agree = Number(pitem.find(".zm-item-vote-count").attr("data-votecount"));
+            p.agree = Number(pitem.find(".zm-item-vote-info").attr("data-votecount"));
             if (!isNaN(p.agree)) {
                 p.timestamp = Number(pitem.attr("data-time"));
                 p.aid = pitem.find("meta[itemprop='post-url-token']").attr("content");//文章id，就是url后面的id
