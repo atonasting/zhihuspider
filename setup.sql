@@ -109,8 +109,8 @@ CREATE TABLE IF NOT EXISTS `usertopanswers` (
   `noshare` tinyint(1) NOT NULL,
   `len` int(11) NOT NULL,
   `imgcount` int(11) NOT NULL,
-  `summary` varchar(2000) NOT NULL,
-  `content` mediumtext NOT NULL
+  `summary` varchar(2000) CHARACTER SET utf8mb4 NOT NULL,
+  `content` mediumtext CHARACTER SET utf8mb4 NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
