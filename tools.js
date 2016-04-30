@@ -136,21 +136,20 @@ exports.getAvatar = function (avatarurl, callback, retry) {
         }
     }
 
-    request({method: 'GET', url: avatarurl, encoding: null},
-        function (error, response, data) {
-            if (!error && response.statusCode == 200) {
-                fs.writeFileSync(config.avatarPath + filepath, data, 'binary');
-                logger.debug("avatar saved: " + filepath);
-                callback(null);
+    this.get(avatarurl, null, function (error, response, data) {
+        if (!error && response.statusCode == 200) {
+            fs.writeFileSync(config.avatarPath + filepath, data, 'binary');
+            logger.debug("avatar saved: " + filepath);
+            callback(null);
+        }
+        else {
+            if (retry < maxretry) {
+                self.getAvatar(avatarurl, callback, retry + 1);
             }
-            else {
-                if (retry < maxretry) {
-                    self.getAvatar(avatarurl, callback, retry + 1);
-                }
-                else
-                    callback(error || response.statusCode);
-            }
-        })
+            else
+                callback(error || response.statusCode);
+        }
+    })
 }
 
 //////////////////工具部分
@@ -320,7 +319,7 @@ exports.spliceAvatars = function (avatars, rowcount, colcount, random, norepeat,
         if (norepeat && addedavatars.indexOf(avatars[i]) != -1) continue;
         try {
             var avatarpath;
-            if (avatars[i].indexOf("https://") == 0)  avatarpath =avatars[i].replace("https://", config.avatarPath);
+            if (avatars[i].indexOf("https://") == 0)  avatarpath = avatars[i].replace("https://", config.avatarPath);
             else avatarpath = avatars[i].replace("http://", config.avatarPath);
 
             var avaimg = images(avatarpath);
