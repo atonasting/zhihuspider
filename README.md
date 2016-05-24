@@ -48,10 +48,10 @@
 我们的模拟过程不必像真的用户那样从首页登录，而是直接借用cookie值：
 
 注册激活登录之后，进入自己的主页，使用任何有开发者模式或查看cookie插件的浏览器，打开知乎中自己的cookie。
-可能有很复杂的一大串，但我们只需要其中一部分，即「z_c0」。
-复制你自己cookie中的z_c0部分，连等号、引号、分号都不要落下，最后格式大致是这样的：
+可能有很复杂的一大串，但我们只需要其中两部分，即「z_c0」、「login」。
+复制你自己cookie中的z_c0和index两部分，连等号、引号、分号都不要落下，最后格式大致是这样的：
 
-> z_c0="LA8kJIJFdDSOA883wkUGJIRE8jVNKSOQfB9430=|1420113988|a6ea18bc1b23ea469e3b5fb2e33c2828439cb";
+> z_c0="LA8kJIJFdDSOA883wkUGJIRE8jVNKSOQfB9430=|1420113988|a6ea18bc1b23ea469e3b5fb2e33c2828439cb";login="MGYyODU4MTc5ZJ945jio2F2YzA3MY849cvzOWY=|1420113988|bc1b23ea469e3b5fb2e33c28284121fa2f606547"; 
 
 在mysql数据库的cookies表中插入一行记录，其中各字段值分别为：
 
