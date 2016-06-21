@@ -338,7 +338,7 @@ function getTopAnswers(r, page, alist, callback, retry) {
                 a.aid = aitem.find(".zm-item-answer").attr("data-aid");//用于获取赞同列表的回答id
                 a.date = tools.getDateTimeString(new Date(a.timestamp * 1000));//发布时间
                 a.link = aitem.find(".question_link").attr("href");
-                a.name = aitem.find(".question_link").html();
+                a.name = aitem.find(".question_link").text().replace(/\n/g, "");
                 a.ispost = false;
                 a.collapsed = (aitem.find(".zm-item-answer").attr("data-collapsed") == "1");//是否折叠
                 a.noshare = (aitem.find(".copyright").text().indexOf("禁止转载") >= 0);//是否禁止转载
@@ -448,7 +448,7 @@ function getTopPosts(r, page, plist, callback, retry) {
                 p.aid = pitem.find("meta[itemprop='post-url-token']").attr("content");//文章id，就是url后面的id
                 p.date = tools.getDateTimeString(new Date(p.timestamp * 1000));//发布时间
                 p.link = pitem.find(".post-link").attr("href");
-                p.name = pitem.find(".post-link").html();
+                p.name = pitem.find(".post-link").text().replace(/\n/g, "");
                 p.ispost = true;
                 p.collapsed = false;//是否折叠
                 p.noshare = false;//是否禁止转载
