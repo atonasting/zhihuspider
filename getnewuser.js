@@ -185,7 +185,7 @@ function readUserInfos($, options, cards, callback) {
     var ratiolimit = options.ratio ? options.ratio : 0;
     cards.each(function (i) {
         var name = $(this).find('a.zg-link').html();
-        var id = $(this).find('a.zg-link').attr("href").replace(config.urlpre + "people/", "");
+        var id = $(this).find('a.zg-link').attr("href").replace(config.urlpre + "people/", "").replace(config.urlpre + "org/", "");
         var detail = $(this).find('.details');
         var hash = $(this).find(".zg-btn").attr("data-id");
         if (id != undefined && name != undefined && hash != undefined) {

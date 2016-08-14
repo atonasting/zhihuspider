@@ -760,12 +760,12 @@ function fixUseridByHash(userlist, cursor, callback) {
                 logger.error(user.tid + " read user page by hash error:" + err);
             else {
                 var $ = cheerio.load(data, {decodeEntities: false});
-                var detailhref = $(".zm-profile-header a.zm-profile-header-user-detail").attr("href");//通过链接读取用户id
-                if (!detailhref) {
+                var homepagehref = $(".zm-profile-header .profile-navbar a.home").attr("href");//通过链接读取用户id
+                if (!homepagehref) {
                     logger.error(user.tid + " cannot get user id by hash: " + err);//可能会失败，失败则忽略
                 }
                 else {
-                    var id = detailhref.replace("/people/", "").replace("/about", "");
+                    var id = homepagehref.replace("/people/", "").replace("/org/", "");
                     if (user.id != id) {//修改id
                         user.oldid = user.id;
                         user.id = id;
